@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                                           '\nPlease Write Comment Using BottomNavigation Comment IconButton.',
                                           style: TextStyle(
                                             fontFamily: 'Avenir',
-                                            fontSize: 12,
+                                            fontSize: 14,
                                             color: primaryTextColor,
                                             fontWeight: FontWeight.w500,
                                           ),
