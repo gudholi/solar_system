@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _controller = TextEditingController();
   //var now;
+  final _formKey = GlobalKey<FormState>();
   int? selectId;
   @override
   Widget build(BuildContext context) {
@@ -50,70 +51,57 @@ class _HomeScreenState extends State<HomeScreen> {
               labelText: 'Write Comment Here',
             ),
             controller: _controller,
-            onSubmitted: (String value) async {
-              await showDialog<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Thanks!'),
-                    content: Text(
-                        'You typed "$value", which has length ${value.characters.length}.'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
           ),
         ),
         backgroundColor: Colors.blueGrey,
       ),
-      body: FutureBuilder<List<Grocery>>(
-        future: DatabaseHelper.instance.getGrocery(),
-        builder: (context, snapshot) {
-          if (snapshot.data!.isEmpty && _controller.text.isNotEmpty) {
-            return Center(
-              child: Text('no List Found'),
-            );
-          } else {
-            return ListView(
-              children: snapshot.data!.map((e) {
-                return Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32),
-                    ),
-                    child: ListTile(
-                      onLongPress: () {
-                        setState(() {
-                          DatabaseHelper.instance.remove(e.id!);
-                        });
-                      },
-                      onTap: () {
-                        //var now = DateTime.now();
-                        _controller.text = e.name;
-                        selectId = e.id;
-                      },
-                      title: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(e.name),
+      body: Form(
+        key: _formKey,
+        child: FutureBuilder<List<Grocery>>(
+          future: DatabaseHelper.instance.getGrocery(),
+          builder: (context, snapshot) {
+            if (snapshot.data!.isEmpty && _controller.text.isNotEmpty) {
+              //print('Not Found');
+              return Center(
+                child: Text('no List Found'),
+              );
+            } /*else if (_controller.text != null || _controller.text.isEmpty) {
+              print('');
+            }*/
+            else {
+              return ListView(
+                children: snapshot.data!.map((e) {
+                  return Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
                       ),
-                      //subtitle: Text('now'),
-                      //subtitle: Text(e.id.toString()),
+                      child: ListTile(
+                        onLongPress: () {
+                          setState(() {
+                            DatabaseHelper.instance.remove(e.id!);
+                          });
+                        },
+                        onTap: () {
+                          //var now = DateTime.now();
+                          _controller.text = e.name;
+                          selectId = e.id;
+                        },
+                        title: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text(e.name),
+                        ),
+                        //subtitle: Text('now'),
+                        //subtitle: Text(e.id.toString()),
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
-            );
-          }
-        },
+                  );
+                }).toList(),
+              );
+            }
+          },
+        ),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

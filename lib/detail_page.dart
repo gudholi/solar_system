@@ -3,8 +3,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'comment_home.dart';
 import 'constants.dart';
 import 'data.dart';
+import 'home_page.dart';
 
 class DetailPage extends StatelessWidget {
   final PlanetInfo planetInfo;
@@ -69,7 +71,7 @@ class DetailPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 32.0),
                     child: Text(
-                      'Gallery',
+                      'Gallery (Need Internet Connection)',
                       style: TextStyle(
                         fontFamily: 'Avenir',
                         fontSize: 25,
@@ -127,6 +129,47 @@ class DetailPage extends StatelessWidget {
               icon: Icon(Icons.arrow_back_ios),
               onPressed: () {
                 Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(36.0),
+          ),
+          color: navigationColor,
+        ),
+        padding: const EdgeInsets.all(0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            IconButton(
+              icon: Image.asset('assets/menu_icon.png'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, a, b) => HomePage(),
+                    ));
+              },
+            ),
+            IconButton(
+              icon: Image.asset('assets/search_icon.png'),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Image.asset('assets/comm.png'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, a, b) => HomeScreen(
+                        //planetInfo: planets[index],
+                        ),
+                  ),
+                );
               },
             ),
           ],

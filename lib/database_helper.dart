@@ -33,7 +33,7 @@ class DatabaseHelper {
 
   Future<List<Grocery>> getGrocery() async {
     Database db = await instance.database;
-    var groceries = await db.query('groceries', orderBy: 'name');
+    var groceries = await db.query('groceries', orderBy: 'id');
     List<Grocery> groceryList = groceries.isEmpty
         ? []
         : groceries.map((grocery) => Grocery.fromMap(grocery)).toList();
