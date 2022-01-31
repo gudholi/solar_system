@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _controller = TextEditingController();
   //var now;
-  final _formKey = GlobalKey<FormState>();
+  //final _formKey = GlobalKey<FormState>();
   int? selectId;
   @override
   Widget build(BuildContext context) {
@@ -55,53 +55,50 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Colors.blueGrey,
       ),
-      body: Form(
-        key: _formKey,
-        child: FutureBuilder<List<Grocery>>(
-          future: DatabaseHelper.instance.getGrocery(),
-          builder: (context, snapshot) {
-            if (snapshot.data!.isEmpty && _controller.text.isNotEmpty) {
-              //print('Not Found');
-              return Center(
-                child: Text('no List Found'),
-              );
-            } /*else if (_controller.text != null || _controller.text.isEmpty) {
-              print('');
-            }*/
-            else {
-              return ListView(
-                children: snapshot.data!.map((e) {
-                  return Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32),
-                      ),
-                      child: ListTile(
-                        onLongPress: () {
-                          setState(() {
-                            DatabaseHelper.instance.remove(e.id!);
-                          });
-                        },
-                        onTap: () {
-                          //var now = DateTime.now();
-                          _controller.text = e.name;
-                          selectId = e.id;
-                        },
-                        title: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Text(e.name),
-                        ),
-                        //subtitle: Text('now'),
-                        //subtitle: Text(e.id.toString()),
-                      ),
+      body: FutureBuilder<List<Grocery>>(
+        future: DatabaseHelper.instance.getGrocery(),
+        builder: (context, snapshot) {
+          if (snapshot.data!.isEmpty && _controller.text.isNotEmpty) {
+            //print('Not Found');
+            return Center(
+              child: Text('no List Found'),
+            );
+          } /*else if (_controller.text != null || _controller.text.isEmpty) {
+            print('');
+          }*/
+          else {
+            return ListView(
+              children: snapshot.data!.map((e) {
+                return Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32),
                     ),
-                  );
-                }).toList(),
-              );
-            }
-          },
-        ),
+                    child: ListTile(
+                      onLongPress: () {
+                        setState(() {
+                          DatabaseHelper.instance.remove(e.id!);
+                        });
+                      },
+                      onTap: () {
+                        //var now = DateTime.now();
+                        _controller.text = e.name;
+                        selectId = e.id;
+                      },
+                      title: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(e.name),
+                      ),
+                      //subtitle: Text('now'),
+                      //subtitle: Text(e.id.toString()),
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          }
+        },
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
