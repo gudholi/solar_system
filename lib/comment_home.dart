@@ -49,6 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
               DatabaseHelper.instance
                   .update(Grocery(name: _controller.text, id: selectId));
               selectId = null;
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please Write Comment Frist')),
+              );
             }
             _controller.text = '';
           });
@@ -62,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: InputDecoration(
               //border: OutlineInputBorder(),
               labelText: 'Write Comment Here',
-              errorText: _validate ? 'Value Can\'t Be Empty' : null,
+              //errorText: _validate ? 'Value Can\'t Be Empty' : null,
             ),
             controller: _controller,
           ),
@@ -79,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: FutureBuilder<List<Grocery>>(
           future: DatabaseHelper.instance.getGrocery(),
           builder: (context, snapshot) {
-            if (snapshot.data!.isEmpty && _controller.text.isNotEmpty) {
+            if (snapshot.data!.isEmpty) {
               //print('Not Found');
               return Center(
                 child: Text('no List Found'),
