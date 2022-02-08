@@ -1,12 +1,14 @@
 //import 'package:flutter/material.dart';
 //import 'package:solar_system/data.dart';
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'comment_home.dart';
 import 'constants.dart';
 import 'data.dart';
+import 'exit_app.dart';
 import 'home_page.dart';
+import 'online_search.dart';
 
 class DetailPage extends StatelessWidget {
   final PlanetInfo planetInfo;
@@ -15,173 +17,185 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: gradientEndColor,
-      body: SafeArea(
-        bottom: false,
-        child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [gradientStartColor, gradientEndColor],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        stops: [0.3, 0.7])),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(32.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(height: 300),
-                          Text(
-                            planetInfo.name,
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              fontSize: 56,
-                              color: titleTextColor,
-                              fontWeight: FontWeight.w900,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                          Text(
-                            'Solar System',
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              fontSize: 31,
-                              color: titleTextColor,
-                              fontWeight: FontWeight.w300,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                          Divider(color: Colors.black38),
-                          SizedBox(height: 32),
-                          Text(
-                            planetInfo.description, //?? '',
-                            maxLines: 5,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontFamily: 'Avenir',
-                              fontSize: 20,
-                              color: titleTextColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          SizedBox(height: 32),
-                          Divider(color: Colors.black38),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 32.0),
-                      child: Text(
-                        'Gallery (Need Internet Connection)',
-                        style: TextStyle(
-                          fontFamily: 'Avenir',
-                          fontSize: 25,
-                          color: Colors.white, //const Color(0xff47455f),
-                          fontWeight: FontWeight.w100,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Container(
-                      height: 250,
-                      padding: const EdgeInsets.only(left: 32.0),
-                      child: ListView.builder(
-                          itemCount: planetInfo.images.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
+    return WillPopScope(
+      onWillPop: () => showExitPopup(context),
+      child: Scaffold(
+        backgroundColor: gradientEndColor,
+        body: SafeArea(
+          bottom: false,
+          child: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [gradientStartColor, gradientEndColor],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0.3, 0.7])),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(height: 300),
+                            Text(
+                              planetInfo.name,
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                fontSize: 56,
+                                color: titleTextColor,
+                                fontWeight: FontWeight.w900,
                               ),
-                              child: AspectRatio(
-                                  aspectRatio: 1,
-                                  child: Image.network(
-                                    planetInfo.images[index],
-                                    fit: BoxFit.cover,
-                                  )),
-                            );
-                          }),
-                    ),
-                  ],
+                              textAlign: TextAlign.left,
+                            ),
+                            Text(
+                              'Solar System',
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                fontSize: 31,
+                                color: titleTextColor,
+                                fontWeight: FontWeight.w300,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            Divider(color: Colors.black38),
+                            SizedBox(height: 32),
+                            Text(
+                              planetInfo.description, //?? '',
+                              maxLines: 5,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                fontSize: 20,
+                                color: titleTextColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(height: 32),
+                            Divider(color: Colors.black38),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 32.0),
+                        child: Text(
+                          'Gallery (Need Internet Connection)',
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            fontSize: 25,
+                            color: Colors.white, //const Color(0xff47455f),
+                            fontWeight: FontWeight.w100,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Container(
+                        height: 250,
+                        padding: const EdgeInsets.only(left: 32.0),
+                        child: ListView.builder(
+                            itemCount: planetInfo.images.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                clipBehavior: Clip.antiAlias,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                child: AspectRatio(
+                                    aspectRatio: 1,
+                                    child: Image.network(
+                                      planetInfo.images[index],
+                                      fit: BoxFit.cover,
+                                    )),
+                              );
+                            }),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              right: -64,
-              child: Hero(
-                  tag: planetInfo.position,
-                  child: Image.asset(planetInfo.iconImage)),
-            ),
-            Positioned(
-              top: 60,
-              left: 32,
-              child: Text(
-                planetInfo.position.toString(),
-                style: TextStyle(
-                  fontFamily: 'Avenir',
-                  fontSize: 247,
-                  color: primaryTextColor.withOpacity(0.08),
-                  fontWeight: FontWeight.w900,
-                ),
-                textAlign: TextAlign.left,
+              Positioned(
+                right: -64,
+                child: Hero(
+                    tag: planetInfo.position,
+                    child: Image.asset(planetInfo.iconImage)),
               ),
-            ),
-            IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(36.0),
+              Positioned(
+                top: 60,
+                left: 32,
+                child: Text(
+                  planetInfo.position.toString(),
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    fontSize: 247,
+                    color: primaryTextColor.withOpacity(0.08),
+                    fontWeight: FontWeight.w900,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           ),
-          color: navigationColor,
         ),
-        padding: const EdgeInsets.all(0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            IconButton(
-              icon: Image.asset('assets/menu_icon.png'),
-              onPressed: () {
-                Navigator.push(
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(36.0),
+            ),
+            color: navigationColor,
+          ),
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              IconButton(
+                icon: Image.asset('assets/menu_icon.png'),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, a, b) => HomePage(),
+                      ));
+                },
+              ),
+              IconButton(
+                icon: Image.asset('assets/search_icon.png'),
+                onPressed: () {
+                  Navigator.push(
                     context,
                     PageRouteBuilder(
-                      pageBuilder: (context, a, b) => HomePage(),
-                    ));
-              },
-            ),
-            IconButton(
-              icon: Image.asset('assets/search_icon.png'),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Image.asset('assets/comm.png'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, a, b) => HomeScreen(
-                        //planetInfo: planets[index],
-                        ),
-                  ),
-                );
-              },
-            ),
-          ],
+                      pageBuilder: (context, a, b) => OnlineSearchPage(
+                          //planetInfo: planets[index],
+                          ),
+                    ),
+                  );
+                },
+              ),
+              IconButton(
+                icon: Image.asset('assets/comm.png'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, a, b) => HomeScreen(
+                          //planetInfo: planets[index],
+                          ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

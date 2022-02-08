@@ -1,12 +1,13 @@
-//import 'book.dart';
+class User_Cmnt {
+  String name;
+  String cmt;
+  //String cmt2;
+  // String name2;
 
-class Cmnt {
-  String cmnt1;
-  int cmnt2;
-  String cmnt3;
-  String cmnt4;
-  String cmnt5;
-  // List<Book> subject = [];
-
-  Cmnt(this.cmnt1, this.cmnt2, this.cmnt3, this.cmnt4, this.cmnt5);
+  User_Cmnt({
+    required this.name,
+    required this.cmt,
+    //required this.name2,
+    // required this.cmt2,
+  });
 }
