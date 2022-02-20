@@ -11,3 +11,8 @@ class User_Cmnt {
     // required this.cmt2,
   });
 }
+class Nasa{
+  String weblink;
+
+  Nasa({required this.weblink});
+}
