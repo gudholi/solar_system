@@ -1,8 +1,9 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:solar_system/comment_home.dart';
+import 'package:solar_system/drawer.dart';
 import 'constants.dart';
-import 'data.dart';
+import 'model/data.dart';
 import 'detail_page.dart';
 import 'online_search.dart';
 import 'exit_app.dart';
@@ -15,11 +16,41 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   double _ratingValue = 0;
+  String dropdownValue = 'Solar_System';
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => showExitPopup(context),
       child: Scaffold(
+        drawer: MainDrawer(),
+        appBar: AppBar(
+          title: Center(
+            child: Text(
+              'Solar_System',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontFamily: 'Avenir',
+                fontSize: 30,
+              ),
+            ),
+          ),
+          shadowColor: Colors.purple,
+          backgroundColor: gradientStartColor,
+          actions: [
+            /*IconButton(
+              onPressed: null,
+              icon: Icon(
+                Icons.add_alert,
+                color: Colors.white,
+              ),
+            ),*/
+            IconButton(
+              onPressed: null,
+              icon: Icon(Icons.account_circle_sharp, color: Colors.white),
+            )
+          ],
+        ),
         backgroundColor: gradientEndColor,
         body: SingleChildScrollView(
           child: Container(
@@ -38,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: <Widget>[
                         Text(
-                          'Explore - \n Solar System',
+                          'Explore',
                           style: TextStyle(
                             fontFamily: 'Avenir',
                             fontSize: 44,
@@ -47,8 +78,27 @@ class _HomePageState extends State<HomePage> {
                           ),
                           textAlign: TextAlign.left,
                         ),
-                        /*DropdownButton(
-                          items: [
+                        DropdownButton<String>(
+                          dropdownColor: Color(0xFF0050AC),
+                          value: dropdownValue,
+                          icon: Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Image.asset('assets/drop_down_icon.png'),
+                          ),
+                          elevation: 16,
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                          underline: SizedBox(),
+                          /*underline: Container(
+                            height: 2,
+                            color: Colors.white,
+                          ),*/
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                          /* items: [
                             DropdownMenuItem(
                               child: Text(
                                 'Solar System',
@@ -61,14 +111,24 @@ class _HomePageState extends State<HomePage> {
                                 textAlign: TextAlign.left,
                               ),
                             ),
-                          ],
-                          onChanged: (value) {},
-                          icon: Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Image.asset('assets/drop_down_icon.png'),
-                          ),
-                          underline: SizedBox(),
-                        ),*/
+                          ],*/
+                          items: <String>[
+                            'Solar_System',
+                            'Mercury',
+                            'Venus',
+                            'Earth',
+                            'Mars',
+                            'Jupiter',
+                            'Saturn',
+                            'Uranus',
+                            'Neptune'
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
                       ],
                     ),
                   ),
@@ -194,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Center(
                     child: Text(
-                      'Rate My App ? By *Prodosh*',
+                      'Rate My App ?',
                       style: TextStyle(fontSize: 24, color: Colors.white),
                     ),
                   ),
@@ -230,7 +290,7 @@ class _HomePageState extends State<HomePage> {
                           color: Color(0xFF9354B9), shape: BoxShape.circle),
                       alignment: Alignment.center,
                       child: Text(
-                        _ratingValue != null
+                        _ratingValue != ''
                             ? _ratingValue.toString()
                             : 'Rate it!',
                         style: TextStyle(color: Colors.white, fontSize: 30),

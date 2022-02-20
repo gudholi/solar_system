@@ -1,10 +1,13 @@
 // main.dart
 import 'package:flutter/material.dart';
+import 'package:solar_system/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'comment_home.dart';
 import 'constants.dart';
+//import 'dami_data.dart';
 import 'exit_app.dart';
 import 'home_page.dart';
+//import 'model/web_model.dart';
 
 /*void main() {
   runApp(const MyApp());
@@ -35,7 +38,6 @@ class OnlineSearchPage extends StatefulWidget {
 class _OnlineSearchPageState extends State<OnlineSearchPage> {
   // This holds a list of fiction users
   // You can use data fetched from a database or a server as well
-  //String _url = 'https://flutter.dev';
 
   final List<Map<String, dynamic>> _allUsers = [
     /*{
@@ -47,7 +49,12 @@ class _OnlineSearchPageState extends State<OnlineSearchPage> {
       ),
       "position": '1st'
     },*/
-    {"id": 1, "name": "Mercury", "position": '1st'},
+    {
+      "id": 1,
+      "name": "Mercury",
+      "position": '1st',
+      /* "Url": 'https://solarsystem.nasa.gov/planets/mercury/overview/'*/
+    },
     {"id": 2, "name": "Venus", "position": '2nd'},
     {"id": 3, "name": "Earth", "position": '3rd'},
     {"id": 4, "name": "Mars", "position": '4th'},
@@ -59,9 +66,6 @@ class _OnlineSearchPageState extends State<OnlineSearchPage> {
     {"id": 10, "name": "Becky", "age": 32},*/
   ];
 
-  /*void _launchURL() async {
-    if (!await launch(_url)) throw 'Could not launch $_url';
-  }*/
   // This list holds the data for the list view
   List<Map<String, dynamic>> _foundUsers = [];
   @override
@@ -91,15 +95,20 @@ class _OnlineSearchPageState extends State<OnlineSearchPage> {
     });
   }
 
+  final Count = 0;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => showExitPopup(context),
       child: Scaffold(
+        drawer: MainDrawer(),
         backgroundColor: gradientEndColor,
         appBar: AppBar(
           title: Center(child: const Text('Solar_System')),
           backgroundColor: gradientStartColor,
+          actions: [
+            IconButton(onPressed: null, icon: Icon(Icons.account_circle_sharp))
+          ],
           //elevation: 0,
         ),
         body: Container(
@@ -179,8 +188,10 @@ class _OnlineSearchPageState extends State<OnlineSearchPage> {
                                     children: [
                                       Text(
                                           '${_foundUsers[index]["position"].toString()} Solar_System '),
+                                      /*Text(
+                                          '${_foundUsers[index]["Url"].toString()} URL'),*/
                                       Text(
-                                        'For More From NASA',
+                                        'For more info from NASA',
                                         style: TextStyle(
                                           decoration: TextDecoration.underline,
                                           color: Color(0xFF0050AC),

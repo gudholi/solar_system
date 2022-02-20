@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:solar_system/drawer.dart';
 import 'package:solar_system/home_page.dart';
 import 'constants.dart';
-import 'dami_data.dart';
+import 'model/dami_data.dart';
 import 'database_helper.dart';
-import 'model.dart';
+import 'model/model.dart';
 import 'online_search.dart';
 import 'exit_app.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({
     Key? key,
-    /*required this.Cmnt*/
   }) : super(key: key);
-
-  //final Cmnt CModel;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -51,69 +49,73 @@ class _HomeScreenState extends State<HomeScreen> {
     return WillPopScope(
       onWillPop: () => showExitPopup(context),
       child: Scaffold(
+        drawer: MainDrawer(),
         backgroundColor: gradientEndColor,
         //backgroundColor: Colors.blue,
         floatingActionButton: ElevatedButton(
-          onPressed: () {
-            print(_controller.text);
-            setState(() {
-              _controller.text.isEmpty ? _validate = true : _validate = false;
+            onPressed: () {
+              print(_controller.text);
+              setState(() {
+                _controller.text.isEmpty ? _validate = true : _validate = false;
 
-              if (selectId == null && _controller.text.isNotEmpty) {
-                DatabaseHelper.instance.add(Grocery(name: _controller.text));
+                if (selectId == null && _controller.text.isNotEmpty) {
+                  DatabaseHelper.instance.add(Grocery(name: _controller.text));
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor: Color(0xFF0050AC),
-                    content: Text('Data Submited Successfully !!'),
-                    duration: const Duration(milliseconds: 4000),
-                    width: 250.0,
-                    behavior: SnackBarBehavior.floating,
-                    // shape: RoundedRectangleBorder(),
-                    /*padding: const EdgeInsets.symmetric(
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Color(0xFF0050AC),
+                      content: Text('Data Submitted Successfully !!'),
+                      duration: const Duration(milliseconds: 2000),
+                      width: 250.0,
+                      behavior: SnackBarBehavior.floating,
+                      // shape: RoundedRectangleBorder(),
+                      /*padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, // Inner padding for SnackBar content.
                     ),*/
-                  ),
-                );
-              } else if (selectId != null) {
-                DatabaseHelper.instance
-                    .update(Grocery(name: _controller.text, id: selectId));
-                selectId = null;
+                    ),
+                  );
+                } else if (selectId != null) {
+                  DatabaseHelper.instance
+                      .update(Grocery(name: _controller.text, id: selectId));
+                  selectId = null;
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor: Color(0xFF0050AC),
-                    content: Text('Data Updated Successfully !!'),
-                    duration: const Duration(milliseconds: 4000),
-                    width: 250.0,
-                    behavior: SnackBarBehavior.floating,
-                    //shape: RoundedRectangleBorder(),
-                    /*padding: const EdgeInsets.symmetric(
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Color(0xFF0050AC),
+                      content: Text('Data Updated Successfully !!'),
+                      duration: const Duration(milliseconds: 2000),
+                      width: 250.0,
+                      behavior: SnackBarBehavior.floating,
+                      //shape: RoundedRectangleBorder(),
+                      /*padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, // Inner padding for SnackBar content.
                     ),*/
-                  ),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    backgroundColor: Color(0xFF0050AC),
-                    content: Text('Please Write Comment First !!'),
-                    duration: const Duration(milliseconds: 4000),
-                    width: 250.0,
-                    behavior: SnackBarBehavior.floating,
-                    //shape: RoundedRectangleBorder(),
-                    /*padding: const EdgeInsets.symmetric(
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Color(0xFF0050AC),
+                      content: Text('Please Write Comment First !!'),
+                      duration: const Duration(milliseconds: 4000),
+                      width: 250.0,
+                      behavior: SnackBarBehavior.floating,
+                      //shape: RoundedRectangleBorder(),
+                      /*padding: const EdgeInsets.symmetric(
                       horizontal: 10.0, // Inner padding for SnackBar content.
                     ),*/
-                  ),
-                );
-              }
-              _controller.text = '';
-            });
-          },
-          child: Text('SUBMIT'),
-          //child: Icon(Icons.add),
-        ),
+                    ),
+                  );
+                }
+                _controller.text = '';
+              });
+            },
+            child: Text('SUBMIT'),
+            style: ElevatedButton.styleFrom(
+              primary: Color(0xFF0050AC),
+            )
+            //child: Icon(Icons.add),
+            ),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60.0),
           child: AppBar(
@@ -138,6 +140,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             backgroundColor: gradientStartColor, //Colors.blueGrey,
+            actions: [
+              IconButton(
+                onPressed: null,
+                icon: Icon(Icons.account_circle_sharp),
+              )
+            ],
           ),
         ),
         body: Container(
@@ -191,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return ListView(
                   children: snapshot.data!.map((e) {
                     return Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(0.0),
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(32),

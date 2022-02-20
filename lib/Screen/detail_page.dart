@@ -2,10 +2,9 @@
 //import 'package:solar_system/data.dart';
 //import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'comment_home.dart';
 import 'constants.dart';
-import 'data.dart';
+import 'model/data.dart';
 import 'exit_app.dart';
 import 'home_page.dart';
 import 'online_search.dart';
